@@ -11,10 +11,17 @@
   :source-paths ["src"]
 
   :cljsbuild {
-    :builds [{:id "cgol"
+    :builds [{:id "dev"
               :source-paths ["src"]
               :compiler {
-                :output-to "out/cgol.js"
-                :output-dir "out"
+                :output-to "public/js/cgol.js"
+                :output-dir "public/js/dev"
                 :optimizations :none
-                :source-map true}}]})
+                :source-map true}}
+             {:id "prod"
+              :source-paths ["src"]
+              :compiler {
+                :output-to "public/js/cgol.js"
+                :pretty-print false
+                :externs ["public/bower_components/Processing.js/processing.min.js"]
+                :optimizations :advanced}}]})

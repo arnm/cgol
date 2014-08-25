@@ -13,8 +13,11 @@
               [2 2] [3 2]
               [2 3] [3 3]})
 
+(def glider #{[20 20] [21 21]
+              [19 22] [20 22] [21 22]})
+
 (def initial-state {:size [50 50]
-                    :cells (s/union blinker beacon)})
+                    :cells (s/union blinker beacon glider)})
 
 (def cell-dimensions [10 10])
 (def cell-color [0 200 0])
@@ -37,21 +40,15 @@
 
 (defn setup []
   (q/smooth)
-  (q/frame-rate 3)
+  (q/frame-rate 2)
   initial-state)
 
 (defn update [state]
   (assoc state :cells (g/next-generation state)))
 
 (defn add-live-cell [state {:keys [x y]}]
-  (assoc state
-    :cells (conj (:cells state) (pixel-coord [x y] cell-dimensions))))
-
-(defn mouse-pressed [state event]
-  (add-live-cell state event))
-
-(defn mouse-dragged [state event]
-  (add-live-cell state event))
+  (assoc state :cells (conj (:cells state)
+                            (pixel-coord [x y] cell-dimensions))))
 
 (defn draw [state]
   (q/background 255)
@@ -62,8 +59,6 @@
   :middleware [qm/fun-mode]
   :setup setup
   :update update
-  :mouse-dragged mouse-dragged
-  :mouse-pressed mouse-pressed
   :draw draw
   :size (coord-pixel (:size initial-state) cell-dimensions))
 

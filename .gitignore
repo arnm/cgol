@@ -2,12 +2,12 @@ pom.xml
 *jar
 /lib/
 /classes/
-/out/
 /target/
 .lein-deps-sum
 .lein-repl-history
 .lein-plugins/
-/bower_components/
 *.nrepl-port
 /cgol.sublime-project
 /cgol.sublime-workspace
+/public/js/
+/public/bower_components
