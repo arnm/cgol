@@ -4,7 +4,6 @@
 
 (enable-console-print!)
 
-(def simulate (atom false))
 (def grid (atom {:size [50 50]
                  :cells #{[0 0] [1 0] [1 1] [2 0]}})) ; represents current living cells
 
