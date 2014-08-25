@@ -9,5 +9,3 @@ pom.xml
 *.nrepl-port
 /cgol.sublime-project
 /cgol.sublime-workspace
-/public/js/
-/public/bower_components
