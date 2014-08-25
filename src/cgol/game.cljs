@@ -1,7 +1,8 @@
-(ns cgol.game)
+(ns cgol.game
+  (:require [clojure.set :as s]))
 
-(defn get-cell-neighbors
-  "Returns set of cell neighbors, dead or alive"
+(defn cell-neighbors
+  "Returns set of cell neighbors, both dead and alive"
   [{:keys [size]} [cell-row cell-col]]
   (let [start-row (- cell-row 1) start-col (- cell-col 1)
         end-row (+ cell-row 2) end-col (+ cell-col 2)
@@ -17,23 +18,46 @@
          flatten (filter #(not (nil? %)))
          (partition 2) (map vec) set)))
 
-(defn is-cell-alive?
+(defn cell-alive?
   "Returns true if, for the grid, the cell is alive"
   [{:keys [cells]} cell]
   (contains? cells cell))
 
-(defn get-cell-live-neighbors
+(defn live-neighbors
   "Returns living neighbors of specified cell"
   [grid cell]
-  (filter #(is-cell-alive? grid %) (get-cell-neighbors grid cell)))
+  (filter #(cell-alive? grid %) (cell-neighbors grid cell)))
 
-(defn get-next-generation
+(defn dead-neighbors
+  "Returns dead neighbors of specified cell"
+  [grid cell]
+  (filter #(not (cell-alive? grid %)) (cell-neighbors grid cell)))
+
+(defn cell-survive?
+  "Returns true if living cell survives for next generation"
+  [grid cell]
+  (let [live-neighbor-count (count (live-neighbors grid cell))]
+    (if
+      (or (= live-neighbor-count 2)
+          (= live-neighbor-count 3))
+      true
+      false)))
+
+(defn cell-awaken?
+  "Returns true if cell awakens for next generation"
+  [grid cell]
+  (let [live-neighbors-count (count (live-neighbors grid cell))]
+    (if (= live-neighbors-count 3)
+      true
+      false)))
+
+(defn next-generation
   "Returns living cells based on the past living cells"
-  [grid]
-  (let [nested-cells (for [cell (:cells grid)]
-                       (let [neighbors-count
-                             (count (get-cell-live-neighbors grid cell))]
-                         (if (or (= neighbors-count 2)
-                                 (= neighbors-count 3))
-                           cell)))]
-    (filter #(not (nil? %)) nested-cells)))
+  [{:keys [cells] :as grid}]
+  (let [living-cells-dead-neighbors
+        (->> (map #(dead-neighbors grid %) cells)
+             flatten (partition 2) (map vec) set)
+        surviving-cells (set (filter #(cell-survive? grid %) cells))
+        awakening-cells (set (filter #(cell-awaken? grid %)
+                                living-cells-dead-neighbors))]
+    (s/union surviving-cells awakening-cells)))
