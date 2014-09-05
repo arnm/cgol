@@ -1,12 +1,12 @@
-(ns cgol.game
+(ns cgol.gol
   (:require [clojure.set :as s]))
 
 (defn neighbors
   "Returns set of cell neighbors, both dead and alive"
-  [{:keys [size]} [cell-row cell-col]]
+  [{:keys [dimensions]} [cell-row cell-col]]
   (let [start-row (- cell-row 1) start-col (- cell-col 1)
         end-row (+ cell-row 2) end-col (+ cell-col 2)
-        [max-row max-col] size
+        [max-row max-col] dimensions
         nested-cells (for [row (range start-row end-row)]
                        (for [col (range start-col end-col)]
                          (if (and (not (= [row col] [cell-row cell-col]))
@@ -56,4 +56,5 @@
         surviving-cells (set (filter #(survive? grid %) cells))
         awakening-cells (set (filter #(awaken? grid %)
                                 living-cells-dead-neighbors))]
-    (s/union surviving-cells awakening-cells)))
+    {:dimensions (:dimensions grid)
+     :cells (s/union surviving-cells awakening-cells)}))

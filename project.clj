@@ -4,11 +4,11 @@
 
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/clojurescript "0.0-2311"]
-                 [quil "2.2.1"]]
+                 [sablono "0.2.21"]
+                 [om "0.7.1"]
+                 [prismatic/om-tools "0.3.2"]]
 
   :plugins [[lein-cljsbuild "1.0.4-SNAPSHOT"]]
-
-  :source-paths ["src"]
 
   :cljsbuild {
     :builds [{:id "dev"
@@ -23,5 +23,5 @@
               :compiler {
                 :output-to "public/js/cgol.js"
                 :pretty-print false
-                :externs ["public/bower_components/Processing.js/processing.min.js"]
+                :externs ["public/bower_components/react.min.js"]
                 :optimizations :advanced}}]})
