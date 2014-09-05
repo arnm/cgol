@@ -1,7 +1,0 @@
-#!/bin/bash
-
-cd public/
-bower update
-cd ../
-lein cljsbuild clean
-lein cljsbuild once $1
