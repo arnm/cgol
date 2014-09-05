@@ -11,13 +11,11 @@
               [2 2] [3 2]
               [2 3] [3 3]})
 
-(def glider #{[20 20] [21 21]
-              [19 22] [20 22] [21 22]})
-
 (def state (atom
             {:title "CGOL"
              :grid {:dimensions [50 50] ;rows x columns
-                     :cells (s/union glider blinker beacon)           ;row x col
-                     }
+                    :cells (s/union glider blinker beacon)           ;row x col
+                    :generation 0
+                    }
              :cell-size 10
-             :cell-color "rgb(0, 255, 0)"}))
+             :cell-color "#A0ABEB"}))

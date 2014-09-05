@@ -57,4 +57,5 @@
         awakening-cells (set (filter #(awaken? grid %)
                                 living-cells-dead-neighbors))]
     {:dimensions (:dimensions grid)
-     :cells (s/union surviving-cells awakening-cells)}))
+     :cells (s/union surviving-cells awakening-cells)
+     :generation (inc (:generation grid))}))
