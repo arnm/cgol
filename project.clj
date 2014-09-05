@@ -11,17 +11,17 @@
   :plugins [[lein-cljsbuild "1.0.4-SNAPSHOT"]]
 
   :cljsbuild {
-    :builds [{:id "dev"
-              :source-paths ["src"]
-              :compiler {
-                :output-to "public/js/cgol.js"
-                :output-dir "public/js/dev"
-                :optimizations :none
-                :source-map true}}
-             {:id "prod"
-              :source-paths ["src"]
-              :compiler {
-                :output-to "public/js/cgol.js"
-                :pretty-print false
-                :externs ["public/bower_components/react.min.js"]
-                :optimizations :advanced}}]})
+              :builds [{:id "dev"
+                        :source-paths ["src"]
+                        :compiler {
+                                   :output-to "public/js/cgol.js"
+                                   :output-dir "public/js/dev"
+                                   :optimizations :none
+                                   :source-map true}}
+                       {:id "prod"
+                        :source-paths ["src"]
+                        :compiler {
+                                   :output-to "public/js/cgol.js"
+                                   :pretty-print false
+                                   :externs ["public/bower_components/react/react.min.js"]
+                                   :optimizations :advanced}}]})
